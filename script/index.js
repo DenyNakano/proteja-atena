@@ -120,7 +120,7 @@ function updateGameArea() {
     pegasus.draw()
     updateObstacle()
     gameArea.frames += 1
-    //if (!gameArea.stop){
+    if (!gameArea.stop){
     requestAnimationFrame(updateGameArea)
     
 }
@@ -134,4 +134,5 @@ function updateObstacle() {
         arrow.updatePosition()
         arrow.draw();
     }
+}
 }
