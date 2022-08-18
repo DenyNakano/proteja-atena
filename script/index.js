@@ -1,13 +1,16 @@
 console.log('connected');
-console.log(gameArea)
+
 const startBtn = document.getElementById('startBtn')
 
-startBtn.onclick = gameArea.start()
+startBtn.addEventListener('click', () => {
+    gameArea.start()
+});
 
 const gameArea = {
     canvas: document.getElementById('canvas'),
     frames: 0,
-
+    obstacles: [],
+    //stop: false,
     start: function () {
         this.canvas.width = 800;
         this.canvas.height = 500;
@@ -49,25 +52,31 @@ class Knight{
         this.y += 50
     }
     }
+    /*crashWith(obstacles){
+        return false
+    }*/
+
 }
 
-/*class Obstacle{
-    constructor (){
-        this.x = 800;
+class Obstacle{
+    constructor (y){
+        this.x = 700;
         this.y = y;
         this.width = 50;
         this.height = 50;
-        this.obstacle = new arrow()
-        this.obstacle.src = './images/arrrow.png'
+        this.image = new Image()
+        this.image.src = './images/arrrow.png'
     }
-    create(){
+    draw(){
         const ctx = gameArea.context
-        ctx.createArrow(this.obstacle, this.x, this.y, this.width, this.height)
-        let obstacle = Math.floor(Math.random)*frames
+        ctx.drawImage(this.image, this.x, this.y, this.width, this.height)
+        
     }
-
+    updatePosition() {
+        this.x -= 1
+    }
 }
-const arrow = new Obstacle() */   
+//const arrow = new Obstacle(250)   
 
 const pegasus = new Knight()
 
@@ -89,16 +98,40 @@ document.addEventListener('keydown', (e) => {
     }
     
 })
-
-function updateGameArea(){
-    gameArea.clear()
-    pegasus.draw()
-    gameArea.frames += 1
-    requestAnimationFrame(updateGameArea)
+function createObstacle() {
+    let minHeight = 30
+    let maxHeight = 450 
+    let y = Math.floor(minHeight + Math.random() * (maxHeight-minHeight))
+    console.log(y)
+    let arrow = new Obstacle(y)
+    gameArea.obstacles.push(arrow)
 }
 
-/*const arrowObstacle = () => {
-    setInterval(()=>{
+function checkGameOver(){
+    const crashed = gameArea.obstacles.some(Obstacle => pegasus.crashWith (Obstacle))
+    if (crashed) {
+        gameArea.stop = true
+    }
+}
 
-    })
-}*/
+
+function updateGameArea() {
+    gameArea.clear()
+    pegasus.draw()
+    updateObstacle()
+    gameArea.frames += 1
+    //if (!gameArea.stop){
+    requestAnimationFrame(updateGameArea)
+    
+}
+
+function updateObstacle() {
+    if(gameArea.frames % 120 === 0){
+        createObstacle()
+    }
+
+    for(arrow of gameArea.obstacles) {
+        arrow.updatePosition()
+        arrow.draw();
+    }
+}
