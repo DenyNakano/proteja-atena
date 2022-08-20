@@ -1,3 +1,30 @@
 #canvas{
-    border: 1px solid black;
+    background-image: url("../images/santuario.jpg");
+    background-repeat: no-repeat;
+    background-size: 1000px;
+}
+.image{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 800px;
+    height: 400px;
+    background-image: url("../images/santuario1.jpg");
+    background-repeat: no-repeat;
+    background-size: 800px;
+}
+
+.rules{
+font-size: 25px;
+text-align: center;
+}
+
+#startBtn {
+    height: 50px;
+    width: 100px;
+}
+
+.button{
+    text-align: center;
 }
